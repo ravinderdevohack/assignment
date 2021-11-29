@@ -177,9 +177,8 @@ airlines=# select e.name from employees e join certified on e.id=e_id join aircr
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-I. A customer wants to travel from Madison to New York with no more than two
-changes of flight. List the choice of departure times from Madison if the
-customer wants to arrive in New York by 6 p.m. 
+I. A customer wants to travel from delhi to mumbai with no more than two changes of flight. List the choice of departure times from Delhi if the
+customer wants to arrive in Mumbai by 11 p.m. 
 Sol...
 airlines=# select departs_time from flights where departs = 'delhi'and destination ='mumbai' and arrives_time <'23:00:00';
  departs_time 
@@ -211,5 +210,17 @@ airlines=# select e.name, e.salary from employees e where e.id not in (select e_
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-L. 
+L. Print the names of employees who are certified only on aircrafts with cruising range longer than 2000 miles.
+Sol...
+airlines=# select e.name from employees e join certified on e.id=e_id join aircraft a on a_id=a.id where a.cruisingrange >2000;
+  name  
+--------
+ satyam
+ satyam
+ aman
+ sahil
+(4 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
 Sol...
