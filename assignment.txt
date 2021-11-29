@@ -140,3 +140,17 @@ Sol...
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 F. Find the aids of all aircraft that can be used on routes from Los Angeles to Chicago.
+Sol...
+airlines=# select id from aircraft where cruisingrange > (select distance from flights where departs = 'mumbai' and destination ='delhi');
+  id  
+------
+ 1001
+ 1002
+ 1003
+ 1004
+(4 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+G. Identify the routes that can be piloted by every pilot who makes more than $100,000.
+Sol...
