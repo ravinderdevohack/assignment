@@ -79,8 +79,7 @@ airlines=# select * from employees;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-A. Find the names of aircraft such that all pilots certified to operate them earn
-more than $80,000.
+A. Find the names of aircraft such that all pilots certified to operate them earn more than $80,000.
 Sol...
 airlines=# select distinct(a.name) from aircraft a join certified on a.id=a_id join employees e on e_id = e.id where salary >80000;
    name    
@@ -95,8 +94,7 @@ airlines=# select distinct(a.name) from aircraft a join certified on a.id=a_id j
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-B. For each pilot who is certified for more than three aircraft, find the eid and the
-maximum cruisingrange of the aircraft for which she or he is certified.
+B. For each pilot who is certified for more than three aircraft, find the eid and the maximum cruisingrange of the aircraft for which she or he is certified.
 Sol...
 airlines=# select e.id, max(cruisingrange) from employees e join certified on e.id = e_id join aircraft a on a_id = a.id group by e.id having count(e_id) >=3;
  id | max  
@@ -105,5 +103,15 @@ airlines=# select e.id, max(cruisingrange) from employees e join certified on e.
   7 | 2000
 (2 rows)
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+c. Find the names of pilots whose salary is less than the price of the cheapest route from delhi to lehra gaga.
+Sol...
+airlines=# select e.name from employees e join certified on e.id = e_id join aircraft a on a_id = a.id where salary < (select min(price) from flights where departs ='delhi' and destination ='lehra gaga');
+ name  
+-------
+ mohan
+(1 row)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+D. For all aircraft with cruisingrange over 1000 miles, find the name of the aircraft and the average salary of all pilots certified for this aircraft.
+Sol..
