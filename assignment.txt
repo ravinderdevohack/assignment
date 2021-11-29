@@ -61,6 +61,7 @@ airlines=# select * from certified;
 (13 rows)
 
                       
+
 airlines=# select * from employees;
  id |   name   | salary 
 ----+----------+--------
@@ -74,7 +75,10 @@ airlines=# select * from employees;
   8 | aman     | 100000
   9 | mohan    |  50000
  10 | sahil    | 150000
-(10 rows)
+ 11 | mohit    | 200000
+ 12 | sanam    | 200000
+(12 rows)
+
 
 
 
@@ -196,4 +200,16 @@ airlines=# select pilot.avgsal - employee.avgsal as diff_salary from (select avg
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-K. 
+K. Print the name and salary of every nonpilot whose salary is more than the average salary for pilots.
+Sol...
+airlines=# select e.name, e.salary from employees e where e.id not in (select e_id from certified) and salary > (select avg(salary) from employees where id in (select e_id from certified));
+ name  | salary 
+-------+--------
+ mohit | 200000
+ sanam | 200000
+(2 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+L. 
+Sol...
