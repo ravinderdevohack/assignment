@@ -16,6 +16,68 @@ Note that the Employees relation describes pilots and other kinds of employees
 aswell; every pilot is certified for some aircraft, and only pilots are certified to
 fly.Write each of the following queries in SQL.
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+airlines=# select * from flights;
+ f_no |  departs  | destination  | distance | departs_time | arrives_time | price  
+------+-----------+--------------+----------+--------------+--------------+--------
+  100 | delhi     | mumbai       |      500 | 10:10:10     | 16:16:16     |  10000
+  101 | delhi     | chennai      |     1000 | 10:10:10     | 20:16:16     |  20000
+  102 | chennai   | jammu&kasmir |     1500 | 10:10:10     | 20:16:16     |  30000
+  103 | mumbai    | delhi        |     1500 | 20:10:10     | 05:16:16     |  10000
+  104 | faridabad | sangrur      |     2000 | 05:10:10     | 20:16:16     | 100000
+  105 | delhi     | lehra gaga   |     3000 | 05:10:10     | 10:16:16     | 100000
+(6 rows)
+
+
+airlines=# select * from aircraft;
+  id  |   name    | cruisingrange 
+------+-----------+---------------
+ 1001 | indigo    |          2000
+ 1002 | spicejet  |          2000
+ 1003 | go first  |          3000
+ 1004 | air india |          2500
+ 1005 | vistara   |          1000
+ 1006 | airasia   |          1000
+(6 rows)
+
+
+airlines=# select * from certified;
+ e_id | a_id 
+------+------
+    5 | 1001
+    5 | 1002
+    6 | 1002
+    6 | 1003
+    6 | 1004
+    7 | 1002
+    7 | 1005
+    7 | 1006
+    8 | 1006
+    8 | 1004
+    9 | 1002
+   10 | 1005
+   10 | 1003
+(13 rows)
+
+                      
+airlines=# select * from employees;
+ id |   name   | salary 
+----+----------+--------
+  1 | sumit    |  10000
+  2 | ravi     |  20000
+  3 | sunil    |  30000
+  4 | suman    |  40000
+  5 | sachin   | 100000
+  6 | satyam   | 100000
+  7 | ravinder | 100000
+  8 | aman     | 100000
+  9 | mohan    |  50000
+ 10 | sahil    | 150000
+(10 rows)
+
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 A. Find the names of aircraft such that all pilots certified to operate them earn
 more than $80,000.
@@ -31,3 +93,17 @@ airlines=# select distinct(a.name) from aircraft a join certified on a.id=a_id j
  vistara
 (6 rows)
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+B. For each pilot who is certified for more than three aircraft, find the eid and the
+maximum cruisingrange of the aircraft for which she or he is certified.
+Sol...
+airlines=# select e.id, max(cruisingrange) from employees e join certified on e.id = e_id join aircraft a on a_id = a.id group by e.id having count(e_id) >=3;
+ id | max  
+----+------
+  6 | 3000
+  7 | 2000
+(2 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
