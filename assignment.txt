@@ -15,3 +15,19 @@ Employees(eid: integer, ename: string, salary: integer)
 Note that the Employees relation describes pilots and other kinds of employees
 aswell; every pilot is certified for some aircraft, and only pilots are certified to
 fly.Write each of the following queries in SQL.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+A. Find the names of aircraft such that all pilots certified to operate them earn
+more than $80,000.
+Sol...
+airlines=# select distinct(a.name) from aircraft a join certified on a.id=a_id join employees e on e_id = e.id where salary >80000;
+   name    
+-----------
+ airasia
+ spicejet
+ go first
+ air india
+ indigo
+ vistara
+(6 rows)
+
