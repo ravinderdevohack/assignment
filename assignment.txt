@@ -122,3 +122,21 @@ airlines=# select a.name, avg(e.salary) from aircraft a join certified on a.id =
  spicejet  |  87500.000000000000
  air india | 100000.000000000000
  indigo    | 100000.000000000000
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+E. Find the names of pilots certified for some spicejet aircraft.
+Sol...
+ airlines=# select e.name from employees e join certified on e.id = e_id join aircraft a on a_id = a.id where a.name ='spicejet';
+   name   
+----------
+ sachin
+ satyam
+ ravinder
+ mohan
+(4 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+F. Find the aids of all aircraft that can be used on routes from Los Angeles to Chicago.
