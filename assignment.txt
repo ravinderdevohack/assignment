@@ -161,12 +161,16 @@ airlines=# select departs, destination from flights where distance < (select min
 (1 row)
 
 
-
-airlines=# select departs, destination from flights where distance < (select min(a.cruisingrange) from aircraft a join certified c on a.id=a_id join employees e on e_id=e.id where e.salary > 100000);
- departs | destination 
----------+-------------
- delhi   | mumbai
-(1 row)
-
-H. Print the enames of pilots who can operate planes with cruisingrange greater than 3000 miles but are not certified on any Boeing aircraft.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+H. Print the enames of pilots who can operate planes with cruisingrange greater than 2000 miles but are not certified on any Go first aircraft.
 Sol...
+airlines=# select e.name from employees e join certified on e.id=e_id join aircraft a on a_id=a.id where a.cruisingrange >2000 and a.name !='go first';
+  name  
+--------
+ satyam
+ aman
+(2 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+I.
