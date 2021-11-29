@@ -115,3 +115,10 @@ airlines=# select e.name from employees e join certified on e.id = e_id join air
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 D. For all aircraft with cruisingrange over 1000 miles, find the name of the aircraft and the average salary of all pilots certified for this aircraft.
 Sol..
+airlines=# select a.name, avg(e.salary) from aircraft a join certified on a.id = a_id join employees e on e_id = e.id group by a.name, a.cruisingrange having a.cruisingrange > 1000;
+   name    |         avg         
+-----------+---------------------
+ go first  | 125000.000000000000
+ spicejet  |  87500.000000000000
+ air india | 100000.000000000000
+ indigo    | 100000.000000000000
