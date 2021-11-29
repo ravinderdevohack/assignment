@@ -61,6 +61,7 @@ airlines=# select * from certified;
 (13 rows)
 
                       
+
 airlines=# select * from employees;
  id |   name   | salary 
 ----+----------+--------
@@ -74,13 +75,15 @@ airlines=# select * from employees;
   8 | aman     | 100000
   9 | mohan    |  50000
  10 | sahil    | 150000
-(10 rows)
+ 11 | mohit    | 200000
+ 12 | sanam    | 200000
+(12 rows)
+
 
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-A. Find the names of aircraft such that all pilots certified to operate them earn
-more than $80,000.
+A. Find the names of aircraft such that all pilots certified to operate them earn more than $80,000.
 Sol...
 airlines=# select distinct(a.name) from aircraft a join certified on a.id=a_id join employees e on e_id = e.id where salary >80000;
    name    
@@ -94,9 +97,9 @@ airlines=# select distinct(a.name) from aircraft a join certified on a.id=a_id j
 (6 rows)
 
 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-B. For each pilot who is certified for more than three aircraft, find the eid and the
-maximum cruisingrange of the aircraft for which she or he is certified.
+B. For each pilot who is certified for more than three aircraft, find the eid and the maximum cruisingrange of the aircraft for which she or he is certified.
 Sol...
 airlines=# select e.id, max(cruisingrange) from employees e join certified on e.id = e_id join aircraft a on a_id = a.id group by e.id having count(e_id) >=3;
  id | max  
@@ -106,4 +109,145 @@ airlines=# select e.id, max(cruisingrange) from employees e join certified on e.
 (2 rows)
 
 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+C. Find the names of pilots whose salary is less than the price of the cheapest route from delhi to lehra gaga.
+Sol...
+airlines=# select e.name from employees e join certified on e.id = e_id join aircraft a on a_id = a.id where salary < (select min(price) from flights where departs ='delhi' and destination ='lehra gaga');
+ name  
+-------
+ mohan
+(1 row)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+D. For all aircraft with cruisingrange over 1000 miles, find the name of the aircraft and the average salary of all pilots certified for this aircraft.
+Sol..
+airlines=# select a.name, avg(e.salary) from aircraft a join certified on a.id = a_id join employees e on e_id = e.id group by a.name, a.cruisingrange having a.cruisingrange > 1000;
+   name    |         avg         
+-----------+---------------------
+ go first  | 125000.000000000000
+ spicejet  |  87500.000000000000
+ air india | 100000.000000000000
+ indigo    | 100000.000000000000
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+E. Find the names of pilots certified for some spicejet aircraft.
+Sol...
+ airlines=# select e.name from employees e join certified on e.id = e_id join aircraft a on a_id = a.id where a.name ='spicejet';
+   name   
+----------
+ sachin
+ satyam
+ ravinder
+ mohan
+(4 rows)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+F. Find the aids of all aircraft that can be used on routes from Los Angeles to Chicago.
+Sol...
+airlines=# select id from aircraft where cruisingrange > (select distance from flights where departs = 'mumbai' and destination ='delhi');
+  id  
+------
+ 1001
+ 1002
+ 1003
+ 1004
+(4 rows)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+G. Identify the routes that can be piloted by every pilot who makes more than $100,000.
+Sol...
+airlines=# select departs, destination from flights where distance < (select min(a.cruisingrange) from aircraft a join certified c on a.id=a_id join employees e on e_id=e.id where e.salary > 100000);
+ departs | destination 
+---------+-------------
+ delhi   | mumbai
+(1 row)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+H. Print the enames of pilots who can operate planes with cruisingrange greater than 2000 miles but are not certified on any Go first aircraft.
+Sol...
+airlines=# select e.name from employees e join certified on e.id=e_id join aircraft a on a_id=a.id where a.cruisingrange >2000 and a.name !='go first';
+  name  
+--------
+ satyam
+ aman
+(2 rows)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+I. A customer wants to travel from delhi to mumbai with no more than two changes of flight. List the choice of departure times from Delhi if the
+customer wants to arrive in Mumbai by 11 p.m. 
+Sol...
+airlines=# select departs_time from flights where departs = 'delhi'and destination ='mumbai' and arrives_time <'23:00:00';
+ departs_time 
+--------------
+ 10:10:10
+(1 row)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+J. Compute the difference between the average salary of a pilot and the average salary of all employees (including pilots).
+Sol...
+airlines=# select pilot.avgsal - employee.avgsal as diff_salary from (select avg(salary) as avgsal from employees where id in (select e_id from certified) ) as pilot, (select avg(salary) avgsal from employees) as employee; 
+    diff_salary     
+--------------------
+ 30000.000000000000
+(1 row)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+K. Print the name and salary of every nonpilot whose salary is more than the average salary for pilots.
+Sol...
+airlines=# select e.name, e.salary from employees e where e.id not in (select e_id from certified) and salary > (select avg(salary) from employees where id in (select e_id from certified));
+ name  | salary 
+-------+--------
+ mohit | 200000
+ sanam | 200000
+(2 rows)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+L. Print the names of employees who are certified only on aircrafts with cruising range longer than 2000 miles.
+Sol...
+airlines=# select e.name from employees e join certified on e.id=e_id join aircraft a on a_id=a.id where a.cruisingrange >2000;
+  name  
+--------
+ satyam
+ satyam
+ aman
+ sahil
+(4 rows)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+M. Print the names of employees who are certified only on aircrafts with cruising range longer than 1000 miles, but on at least two such aircrafts.
+Sol..
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+N. Print the names of employees who are certified only on aircrafts with cruising range longer than 1000 miles and who are certified on some Air India aircraft.
+Sol...
+airlines=# select e.name from employees e join certified on e.id=e_id join aircraft a on a_id=a.id where a.cruisingrange >1000 and a.name ='air india';
+  name  
+--------
+ satyam
+ aman
+(2 rows)
+
