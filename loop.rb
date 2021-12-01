@@ -29,8 +29,8 @@ puts Prime.take(15)
  
 
 
-# built-in functions
 
+# array built-in functions
 num = 2156.45
 puts num.floor
 puts num.integer?
@@ -61,3 +61,33 @@ puts num.sort!									# sort itself
 
 puts num.uniq! 									# remove duplicate values from itself
 puts num
+
+
+
+
+# hash built-in method
+month = Hash.new
+puts month[0]
+month = {'1': 'jan', '2'=> 'feb', '3': 'mar', '4': 'apr'}
+puts month['2']
+puts month.keys
+puts month.values
+puts month['4']
+# month.delete(:'1')
+puts month
+puts month.each{|k|}
+puts month.empty?
+puts month.fetch('2')
+puts month.index('feb')
+puts month.length
+opp = month.invert
+puts opp.keys
+
+puts opp.inspect
+
+puts month.merge!(opp)
+puts month.inspect
+
+puts opp.sort
+puts month.shift
+puts month 
