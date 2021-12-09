@@ -1,0 +1,47 @@
+body {
+	background-image: url('asset/image3.png');
+	background-repeat: no-repeat;
+	background-position: right top;
+	margin-right: 200px;
+}
+background-image {
+	-webkit-box-reflect:  below;
+}
+
+.icons {
+	font-size: 50px;
+	color: orchid;
+}
+
+.trans {
+	width: 320px;
+	height: 150px;
+	background: rgba(15, 115, 0, 0.4);
+	transition: width 4s;
+}
+.cycle{
+	position: relative;
+	animation-name: bycycle;
+	animation-duration: 12s;
+	animation-iteration-count: 3;
+
+}
+
+@keyframes bycycle {
+	0% {
+		color: orangered; left: 0px; 
+	}
+	50% {
+		color: darkred; left: 320px; 
+	}
+	100% {
+		color: blueviolet; left: 0px; 
+	}
+
+
+}
+
+.trans:hover {
+	width : 600px;
+
+}
